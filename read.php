@@ -1,18 +1,18 @@
 <?php
 // Check existence of id parameter before processing further
-if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
+if(isset($_GET["ID"]) && !empty(trim($_GET["ID"]))){
     // Include config file
     require_once "config.php";
     
     // Prepare a select statement
-    $sql = "SELECT * FROM employees WHERE id = ?";
+    $sql = "SELECT * FROM Mavens WHERE ID = ?";
     
     if($stmt = mysqli_prepare($link, $sql)){
         // Bind variables to the prepared statement as parameters
         mysqli_stmt_bind_param($stmt, "i", $param_id);
         
         // Set parameters
-        $param_id = trim($_GET["id"]);
+        $param_id = trim($_GET["ID"]);
         
         // Attempt to execute the prepared statement
         if(mysqli_stmt_execute($stmt)){
@@ -24,9 +24,13 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
                 $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
                 
                 // Retrieve individual field value
-                $name = $row["name"];
-                $address = $row["address"];
-                $salary = $row["salary"];
+                $firstname = $row["FirstName"];
+                $lastname = $row["LastName"];
+                $couponcode = $row["CouponCode"];
+                $email = $row["Email"];
+                $city = $row["City"];
+                $state = $row["State"];
+
             } else{
                 // URL doesn't contain valid id parameter. Redirect to error page
                 header("location: error.php");
@@ -68,19 +72,36 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 class="mt-5 mb-3">View Record</h1>
+                    <h1 class="mt-5 mb-3">View Maven</h1>
+
                     <div class="form-group">
-                        <label>Name</label>
-                        <p><b><?php echo $row["name"]; ?></b></p>
+                        <label>First Name</label>
+                        <p><b><?php echo $row["FirstName"]; ?></b></p>
                     </div>
                     <div class="form-group">
-                        <label>Address</label>
-                        <p><b><?php echo $row["address"]; ?></b></p>
+                        <label>Last Name</label>
+                        <p><b><?php echo $row["LastName"]; ?></b></p>
                     </div>
                     <div class="form-group">
-                        <label>Salary</label>
-                        <p><b><?php echo $row["salary"]; ?></b></p>
+                        <label>Coupon Code</label>
+                        <p><b><?php echo $row["CouponCode"]; ?></b></p>
                     </div>
+
+                    <div class="form-group">
+                        <label>City</label>
+                        <p><b><?php echo $row["City"]; ?></b></p>
+                    </div>
+
+                    <div class="form-group">
+                        <label>State</label>
+                        <p><b><?php echo $row["State"]; ?></b></p>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email or Phone</label>
+                        <p><b><?php echo $row["Email"]; ?></b></p>
+                    </div>
+
                     <p><a href="index.php" class="btn btn-primary">Back</a></p>
                 </div>
             </div>        
