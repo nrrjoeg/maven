@@ -102,7 +102,7 @@ if(isset($_GET["ID"]) && !empty(trim($_GET["ID"]))){
                         <p><b><?php echo $row["Email"]; ?></b></p>
                     </div>
 
-                    <p><a href="index.php" class="btn btn-primary">Back</a></p>
+                    <p><a href="index.php" class="btn btn-primary">Back to Dashboard</a></p>
                 </div>
             </div>        
         </div>
