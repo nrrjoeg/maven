@@ -9,7 +9,7 @@ $firstname_err = $lastname_err = $couponcode_err = $email_err = $city_err = $sta
 // Processing form data when form is submitted
 if(isset($_POST["ID"]) && !empty($_POST["ID"])){
     // Get hidden input value
-    $ID = $_POST["ID"];
+    $id = $_POST["ID"];
     
     // Validate first name
     $input_firstname = trim($_POST["FirstName"]);
@@ -60,13 +60,13 @@ if(isset($_POST["ID"]) && !empty($_POST["ID"])){
    }
     
     // Check input errors before inserting in database
-    if(empty($name_err) && empty($address_err) && empty($salary_err)){
+    if(empty($firstname_err) && empty($lastname_err) && empty($couponcode_err) && empty($email_err) && empty($city_err) && empty($state_err)){
         // Prepare an update statement
-        $sql = "UPDATE employees SET FirstName=?, LastName=?, CouponCode=?, Email=?, City=?, State=? WHERE ID=?";
+        $sql = "UPDATE Mavens SET FirstName=?, LastName=?, CouponCode=?, Email=?, City=?, State=? WHERE ID=?";
          
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "ssssss", $param_firstname, $param_lastname, $param_couponcode, $param_email, $param_city, $param_state);
+            mysqli_stmt_bind_param($stmt, "ssssssi", $param_firstname, $param_lastname, $param_couponcode, $param_email, $param_city, $param_state, $param_id);
             
             // Set parameters
             $param_firstname = $firstname;
@@ -75,6 +75,7 @@ if(isset($_POST["ID"]) && !empty($_POST["ID"])){
             $param_email = $email;
             $param_city = $city;
             $param_state = $state;
+            $param_id=$id;
             
             // Attempt to execute the prepared statement
             if(mysqli_stmt_execute($stmt)){
@@ -92,14 +93,17 @@ if(isset($_POST["ID"]) && !empty($_POST["ID"])){
     
     // Close connection
     mysqli_close($link);
-} else{
+}
+
+else{
     // Check existence of id parameter before processing further
-    if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
+    if(isset($_GET["ID"]) && !empty(trim($_GET["ID"]))){
         // Get URL parameter
-        $id =  trim($_GET["id"]);
+        $id =  trim($_GET["ID"]);
         
         // Prepare a select statement
-        $sql = "SELECT * FROM employees WHERE id = ?";
+        $sql = "SELECT * FROM Mavens WHERE ID = ?";
+
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
             mysqli_stmt_bind_param($stmt, "i", $param_id);
@@ -117,9 +121,13 @@ if(isset($_POST["ID"]) && !empty($_POST["ID"])){
                     $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
                     
                     // Retrieve individual field value
-                    $name = $row["name"];
-                    $address = $row["address"];
-                    $salary = $row["salary"];
+                    $firstname = $row["FirstName"];
+                    $lastname = $row["LastName"];
+                    $couponcode = $row["CouponCode"];
+                    $email = $row["Email"];
+                    $city = $row["City"];
+                    $state = $row["State"];
+
                 } else{
                     // URL doesn't contain valid id. Redirect to error page
                     header("location: error.php");
@@ -162,25 +170,47 @@ if(isset($_POST["ID"]) && !empty($_POST["ID"])){
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <h2 class="mt-5">Update Record</h2>
-                    <p>Please edit the input values and submit to update the employee record.</p>
+                    <h2 class="mt-5">Update Maven Record</h2>
+                    <p>Please edit the input values and submit to update the Maven record.</p>
                     <form action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post">
-                        <div class="form-group">
-                            <label>Name</label>
-                            <input type="text" name="name" class="form-control <?php echo (!empty($name_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $name; ?>">
-                            <span class="invalid-feedback"><?php echo $name_err;?></span>
+                                              
+                    <div class="form-group">
+                            <label>FirstName</label>
+                            <input type="text" name="FirstName" class="form-control <?php echo (!empty($firstname_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $firstname; ?>">
+                            <span class="invalid-feedback"><?php echo $firstname_err;?></span>
                         </div>
+
                         <div class="form-group">
-                            <label>Address</label>
-                            <textarea name="address" class="form-control <?php echo (!empty($address_err)) ? 'is-invalid' : ''; ?>"><?php echo $address; ?></textarea>
-                            <span class="invalid-feedback"><?php echo $address_err;?></span>
+                            <label>LastName</label>
+                            <input type="text" name="LastName" class="form-control <?php echo (!empty($lastname_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $lastname; ?>">
+                            <span class="invalid-feedback"><?php echo $lastname_err;?></span>
                         </div>
+
                         <div class="form-group">
-                            <label>Salary</label>
-                            <input type="text" name="salary" class="form-control <?php echo (!empty($salary_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $salary; ?>">
-                            <span class="invalid-feedback"><?php echo $salary_err;?></span>
+                            <label>Coupon Code</label>
+                            <input type="text" name="CouponCode" class="form-control <?php echo (!empty($couponcode_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $couponcode; ?>">
+                            <span class="invalid-feedback"><?php echo $couponcode_err;?></span>
                         </div>
-                        <input type="hidden" name="id" value="<?php echo $id; ?>"/>
+
+                        <div class="form-group">
+                            <label>Email or Phone</label>
+                            <input type="text" name="Email" class="form-control <?php echo (!empty($email_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $email; ?>">
+                            <span class="invalid-feedback"><?php echo $email_err;?></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label>City</label>
+                            <input type="text" name="City" class="form-control <?php echo (!empty($city_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $city; ?>">
+                            <span class="invalid-feedback"><?php echo $city_err;?></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label>State</label>
+                            <input type="text" name="State" class="form-control <?php echo (!empty($state_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $state; ?>">
+                            <span class="invalid-feedback"><?php echo $state_err;?></span>
+                        </div>
+
+                        <input type="hidden" name="ID" value="<?php echo $id; ?>"/>
                         <input type="submit" class="btn btn-primary" value="Submit">
                         <a href="index.php" class="btn btn-secondary ml-2">Cancel</a>
                     </form>
