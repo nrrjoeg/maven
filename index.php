@@ -71,6 +71,8 @@
                                 }
                                 echo "</tbody>";
                             echo "</table>";
+
+                            
                             // Free result set
                             mysqli_free_result($result);
                         } else{
@@ -83,6 +85,8 @@
                     // Close connection
                     mysqli_close($link);
                     ?>
+
+<a href="create.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add New Maven</a>
                 </div>
             </div>        
         </div>
