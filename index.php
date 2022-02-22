@@ -10,11 +10,11 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <style>
         .wrapper{
-            width: 600px;
+            width: 900px;
             margin: 0 auto;
         }
         table tr td:last-child{
-            width: 80px;
+            width: 50px;
         }
     </style>
     <script>
