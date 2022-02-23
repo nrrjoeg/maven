@@ -42,7 +42,24 @@
                     require_once "config.php";
                     
                     // Attempt select query execution
-                    $sql = "SELECT * FROM Mavens";
+                    
+                    $sql = "SELECT `Mavens`.`ID`,
+                        `Mavens`.`FirstName`,
+                        `Mavens`.`LastName`,
+                        `Mavens`.`CouponCode`,
+                        `Mavens`.`City`,
+                        `Mavens`.`State`,
+                        `Mavens`.`Email`,
+                        `OrderRollup`.`TotalMavenOrders`,
+                        `OrderRollup`.`OrderCount`
+                    
+                        FROM `Mavens`
+                    
+                        Left join `OrderRollup` on `OrderRollup`.`CustID` = `Mavens`.`ID`
+                    
+                        Where 1;";
+
+
                     if($result = mysqli_query($link, $sql)){
                         if(mysqli_num_rows($result) > 0){
                             echo '<table class="table table-bordered table-striped">';
@@ -70,8 +87,8 @@
                                         echo "<td>" . $row['City'] . "</td>";
                                         echo "<td>" . $row['State'] . "</td>";
                                         echo "<td>" . $row['Email'] . "</td>";
-                                        echo "<td>Coming Soon</td>";
-                                        echo "<td>Coming Soon</td>";
+                                        echo "<td>" . $row['OrderCount'] . "</td>";
+                                        echo "<td>" . $row['TotalMavenOrders'] . "</td>";
                                         echo "<td>";
                                             echo '<a href="read.php?ID='. $row['ID'] .'" class="mr-3" title="View Record" data-toggle="tooltip"><span class="fa fa-eye"></span></a>';
                                             echo '<a href="update.php?ID='. $row['ID'] .'" class="mr-3" title="Update Record" data-toggle="tooltip"><span class="fa fa-pencil"></span></a>';
