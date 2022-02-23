@@ -15,7 +15,7 @@
 
     <style>
         .wrapper{
-            width: 900px;
+            width: 1050px;
             margin: 0 auto;
         }
         table tr td:last-child{
@@ -34,7 +34,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="mt-5 mb-3 clearfix">
-                        <h2 class="pull-left">Maven Dashboard</h2>
+                        <h2 class="pull-left">Nature's Rite Maven Dashboard</h2>
                         <a href="create.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add New Maven</a>
                     </div>
                     <?php
@@ -55,10 +55,14 @@
                                         echo "<th>City</th>";
                                         echo "<th>State</th>";
                                         echo "<th>Email or Phone</th>";
+                                        echo "<th>Order Count</th>";
+                                        echo "<th>Order Total</th>";
+                                        echo "<th>Action</th>";
                                     echo "</tr>";
                                 echo "</thead>";
                                 echo "<tbody>";
                                 while($row = mysqli_fetch_array($result)){
+                                    
                                     echo "<tr>";
                                         echo "<td>" . $row['ID'] . "</td>";
                                         echo "<td>" . $row['FirstName'] . "</td>";
@@ -67,10 +71,12 @@
                                         echo "<td>" . $row['City'] . "</td>";
                                         echo "<td>" . $row['State'] . "</td>";
                                         echo "<td>" . $row['Email'] . "</td>";
+                                        echo "<td>Coming Soon</td>";
+                                        echo "<td>Coming Soon</td>";
                                         echo "<td>";
                                             echo '<a href="read.php?ID='. $row['ID'] .'" class="mr-3" title="View Record" data-toggle="tooltip"><span class="fa fa-eye"></span></a>';
                                             echo '<a href="update.php?ID='. $row['ID'] .'" class="mr-3" title="Update Record" data-toggle="tooltip"><span class="fa fa-pencil"></span></a>';
-                                            echo '<a href="delete.php?='. $row['ID'] .'" title="Delete Record" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';
+                                            echo "<td>Coming Soon</td>";                   echo '<a href="delete.php?='. $row['ID'] .'" title="Delete Record" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';
                                         echo "</td>";
                                     echo "</tr>";
                                 }
