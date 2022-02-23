@@ -62,7 +62,6 @@
                                 echo "</thead>";
                                 echo "<tbody>";
                                 while($row = mysqli_fetch_array($result)){
-                                    
                                     echo "<tr>";
                                         echo "<td>" . $row['ID'] . "</td>";
                                         echo "<td>" . $row['FirstName'] . "</td>";
@@ -76,7 +75,7 @@
                                         echo "<td>";
                                             echo '<a href="read.php?ID='. $row['ID'] .'" class="mr-3" title="View Record" data-toggle="tooltip"><span class="fa fa-eye"></span></a>';
                                             echo '<a href="update.php?ID='. $row['ID'] .'" class="mr-3" title="Update Record" data-toggle="tooltip"><span class="fa fa-pencil"></span></a>';
-                                            echo "<td>Coming Soon</td>";                   echo '<a href="delete.php?='. $row['ID'] .'" title="Delete Record" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';
+                                            echo '<a href="delete.php?='. $row['ID'] .'" title="Delete Record" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';
                                         echo "</td>";
                                     echo "</tr>";
                                 }
