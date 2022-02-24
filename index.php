@@ -43,10 +43,10 @@
                     
                     // Attempt select query execution
                     
-                    $sql = "SELECT `Mavens`.`ID`,
+                    $sql = "SELECT `Mavens`.`CouponCode`,
                         `Mavens`.`FirstName`,
                         `Mavens`.`LastName`,
-                        `Mavens`.`CouponCode`,
+                        `Mavens`.`ID`,                        
                         `Mavens`.`City`,
                         `Mavens`.`State`,
                         `Mavens`.`Email`,
@@ -57,7 +57,9 @@
                     
                         Left join `OrderRollup` on `OrderRollup`.`CustID` = `Mavens`.`ID`
                     
-                        Where 1;";
+                        Where 1
+                        
+                        Order by CouponCode ASC;";
 
 
                     if($result = mysqli_query($link, $sql)){
@@ -65,10 +67,10 @@
                             echo '<table class="table table-bordered table-striped">';
                                 echo "<thead>";
                                     echo "<tr>";
-                                        echo "<th>ID</th>";
+                                        echo "<th>Couponcode</th>";
                                         echo "<th>FirstName</th>";
                                         echo "<th>LastName</th>";
-                                        echo "<th>CouponCode</th>";
+                                        echo "<th>ID</th>";
                                         echo "<th>City</th>";
                                         echo "<th>State</th>";
                                         echo "<th>Email or Phone</th>";
@@ -80,10 +82,10 @@
                                 echo "<tbody>";
                                 while($row = mysqli_fetch_array($result)){
                                     echo "<tr>";
-                                        echo "<td>" . $row['ID'] . "</td>";
+                                        echo "<td>" . $row['CouponCode'] . "</td>";
                                         echo "<td>" . $row['FirstName'] . "</td>";
                                         echo "<td>" . $row['LastName'] . "</td>";
-                                        echo "<td>" . $row['CouponCode'] . "</td>";
+                                        echo "<td>" . $row['ID'] . "</td>";
                                         echo "<td>" . $row['City'] . "</td>";
                                         echo "<td>" . $row['State'] . "</td>";
                                         echo "<td>" . $row['Email'] . "</td>";
