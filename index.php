@@ -35,7 +35,8 @@
                 <div class="col-md-12">
                     <div class="mt-5 mb-3 clearfix">
                         <h2 class="pull-left">Nature's Rite Maven Dashboard</h2>
-                        <a href="create.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add New Maven</a>
+                        <a href="create.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add New Maven</a><br><br>
+                        <a href="create-order.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add New Maven Coupon Usage</a>
                     </div>
                     <?php
                     // Include config file
