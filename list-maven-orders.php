@@ -1,3 +1,60 @@
+<?php
+// Check existence of id parameter before processing further
+if(isset($_GET["ID"]) && !empty(trim($_GET["ID"]))){
+    // Include config file
+    require_once "config.php";
+    
+    // Prepare a select statement
+    $sql = "SELECT * FROM `Orders` WHERE ID = ?";
+    
+    if($stmt = mysqli_prepare($link, $sql)){
+        // Bind variables to the prepared statement as parameters
+        mysqli_stmt_bind_param($stmt, "i", $param_id);
+        
+        // Set parameters
+        $param_id = trim($_GET["ID"]);
+        
+        // Attempt to execute the prepared statement
+        if(mysqli_stmt_execute($stmt)){
+            $result = mysqli_stmt_get_result($stmt);
+    
+            if(mysqli_num_rows($result) == 1){
+                /* Fetch result row as an associative array. Since the result set
+                contains only one row, we don't need to use while loop */
+                $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+                
+                // Retrieve individual field value
+                $custid = $row["CustID"];
+                $ordernumber = $row["OrderNumber"];
+                $couponcode = $row["CouponCode"];
+                $orderdate = $row["OrderDate"];
+                $ordername = $row["OrderName"];
+                $total = $row["Total"];
+
+            } else{
+                // URL doesn't contain valid id parameter. Redirect to error page
+                header("location: error.php");
+                exit();
+            }
+            
+        } else{
+            echo "Oops! Something went wrong. Please try again later.";
+        }
+    }
+     
+    // Close statement
+    mysqli_stmt_close($stmt);
+    
+    // Close connection
+    mysqli_close($link);
+} else{
+    // URL doesn't contain id parameter. Redirect to error page
+    header("location: error.php");
+    exit();
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,9 +91,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="mt-5 mb-3 clearfix">
-                        <h2 class="pull-left">Nature's Rite Maven Dashboard</h2>
-                        <a href="create.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add New Maven</a><br><br>
-                        <a href="create-order.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add New Maven Coupon Usage</a>
+                        <h2 class="pull-left">Order list for Maven's coupon code</h2>
                     </div>
                     <?php
                     // Include config file
@@ -44,24 +99,7 @@
                     
                     // Attempt select query execution
                     
-                    $sql = "SELECT `Mavens`.`CouponCode`,
-                        `Mavens`.`FirstName`,
-                        `Mavens`.`LastName`,
-                        `Mavens`.`ID`,                        
-                        `Mavens`.`City`,
-                        `Mavens`.`State`,
-                        `Mavens`.`Email`,
-                        `OrderRollup`.`TotalMavenOrders`,
-                        `OrderRollup`.`OrderCount`
-                    
-                        FROM `Mavens`
-                    
-                        Left join `OrderRollup` on `OrderRollup`.`CustID` = `Mavens`.`ID`
-                    
-                        Where 1
-                        
-                        Order by CouponCode ASC;";
-
+                    $sql = "SELECT * from `Orders` where `CustID` = '51';";
 
                     if($result = mysqli_query($link, $sql)){
                         if(mysqli_num_rows($result) > 0){
@@ -69,34 +107,21 @@
                                 echo "<thead>";
                                     echo "<tr>";
                                         echo "<th>Couponcode</th>";
-                                        echo "<th>FirstName</th>";
-                                        echo "<th>LastName</th>";
-                                        echo "<th>Maven ID</th>";
-                                        echo "<th>City</th>";
-                                        echo "<th>State</th>";
-
-                                        echo "<th>Order Count</th>";
+                                        echo "<th>Order Number</th>";
+                                        echo "<th>Order Name</th>";
+                                        echo "<th>Order Date</th>";
                                         echo "<th>Order Total</th>";
-                                        echo "<th>Action</th>";
+
                                     echo "</tr>";
                                 echo "</thead>";
                                 echo "<tbody>";
                                 while($row = mysqli_fetch_array($result)){
                                     echo "<tr>";
                                         echo "<td>" . $row['CouponCode'] . "</td>";
-                                        echo "<td>" . $row['FirstName'] . "</td>";
-                                        echo "<td>" . $row['LastName'] . "</td>";
-                                        echo "<td>" . $row['ID'] . "</td>";
-                                        echo "<td>" . $row['City'] . "</td>";
-                                        echo "<td>" . $row['State'] . "</td>";
-                                     
-                                        echo "<td>" . $row['OrderCount'] . "</td>";
-                                        echo "<td>" . $row['TotalMavenOrders'] . "</td>";
-                                        echo "<td>";
-                                            echo '<a href="read.php?ID='. $row['ID'] .'" class="mr-3" title="View Record" data-toggle="tooltip"><span class="fa fa-eye"></span></a>';
-                                            echo '<a href="update.php?ID='. $row['ID'] .'" class="mr-3" title="Update Record" data-toggle="tooltip"><span class="fa fa-pencil"></span></a>';
-                                            echo '<a href="delete.php?='. $row['ID'] .'" title="Delete Record" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';
-                                        echo "</td>";
+                                        echo "<td>" . $row['OrderNumber'] . "</td>";
+                                        echo "<td>" . $row['OrderName'] . "</td>";
+                                        echo "<td>" . $row['OrderDate'] . "</td>";
+                                        echo "<td>" . $row['Total'] . "</td>";
                                     echo "</tr>";
                                 }
                                 echo "</tbody>";
@@ -115,7 +140,7 @@
                     mysqli_close($link);
                     ?>
 
-<a href="create.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add New Maven</a>
+<a href="index.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i>Back to Dashboard</a>
                 </div>
             </div>        
         </div>

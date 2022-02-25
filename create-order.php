@@ -4,7 +4,6 @@ require_once "config.php";
  
 // Define variables and initialize with empty values
 $ordername = $orderdate = $couponcode = $ordernumber = $custid = $total = "";
-
 $ordername_err = $orderdate_err = $couponcode_err = $ordernumber_err = $custid_err = $total_err = "";
  
 // Processing form data when form is submitted
