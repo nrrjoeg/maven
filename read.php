@@ -27,9 +27,12 @@ if(isset($_GET["ID"]) && !empty(trim($_GET["ID"]))){
                 $firstname = $row["FirstName"];
                 $lastname = $row["LastName"];
                 $couponcode = $row["CouponCode"];
+                $address1 = $row['Address1'];
+                $address2 = $row['Address2'];
                 $email = $row["Email"];
                 $city = $row["City"];
                 $state = $row["State"];
+                $postal = $row["PostalCode"];
 
             } else{
                 // URL doesn't contain valid id parameter. Redirect to error page
@@ -77,14 +80,23 @@ if(isset($_GET["ID"]) && !empty(trim($_GET["ID"]))){
                     <div class="form-group">
                         <label>First Name</label>
                         <p><b><?php echo $row["FirstName"]; ?></b></p>
-                    </div>
-                    <div class="form-group">
-                        <label>Last Name</label>
+                    </div>state
                         <p><b><?php echo $row["LastName"]; ?></b></p>
                     </div>
+                    
                     <div class="form-group">
                         <label>Coupon Code</label>
                         <p><b><?php echo $row["CouponCode"]; ?></b></p>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Address 1</label>
+                        <p><b><?php echo $row["Address1"]; ?></b></p>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Address2</label>
+                        <p><b><?php echo $row["Address2"]; ?></b></p>
                     </div>
 
                     <div class="form-group">
@@ -98,8 +110,18 @@ if(isset($_GET["ID"]) && !empty(trim($_GET["ID"]))){
                     </div>
 
                     <div class="form-group">
+                        <label>Zip-Postal Code</label>
+                        <p><b><?php echo $row["PostalCode"]; ?></b></p>
+                    </div>
+
+                    <div class="form-group">
                         <label>Email or Phone</label>
                         <p><b><?php echo $row["Email"]; ?></b></p>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Maven ID</label>
+                        <p><b><?php echo $param_id; ?></b></p>
                     </div>
 
                     <p><a href="index.php" class="btn btn-primary">Back to Dashboard</a></p>

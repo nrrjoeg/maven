@@ -3,8 +3,8 @@
 require_once "config.php";
  
 // Define variables and initialize with empty values
-$firstname = $lastname = $couponcode = $email = $city = $state = "";
-$firstname_err = $lastname_err = $couponcode_err = $email_err = $city_err = $state_err = "";
+$firstname = $lastname = $couponcode = $email = $city = $state = $address1 = $address2 = $postalcode = "";
+$firstname_err = $lastname_err = $couponcode_err = $email_err = $city_err = $state_err = $address1_err = $address2_err = $postalcode_err = "";
  
 // Processing form data when form is submitted
 if(isset($_POST["ID"]) && !empty($_POST["ID"])){
@@ -34,7 +34,23 @@ if(isset($_POST["ID"]) && !empty($_POST["ID"])){
    } else{
        $couponcode = $input_couponcode;
    }
-   
+
+    // Validate Address1
+    $input_address1 = trim($_POST["Address1"]);
+    if(empty($input_address1)){
+        $address1_err = "Please enter Address 1. If you don't know it, put TBD or None.";     
+    } else{
+        $address1 = $input_address1;
+    }
+
+    // Validate Address2
+    $input_address2 = trim($_POST["Address2"]);
+    if(empty($input_address2)){
+        $address2_err = "Please enter Address 2. If you don't know it, put TBD or None.";     
+    } else{
+        $address2 = $input_address2;
+    }
+
    // Validate email
    $input_email = trim($_POST["Email"]);
    if(empty($input_email)){
@@ -58,15 +74,23 @@ if(isset($_POST["ID"]) && !empty($_POST["ID"])){
    } else{
        $state = $input_state;
    }
+
+   // Validate Zip or Postal Code
+   $input_postalcode = trim($_POST["PostalCode"]);
+   if(empty($input_postalcode)){
+       $postalcode_err = "Please enter Zip or Postal Code. If you don't know it, put TBD or None.";     
+   } else{
+       $postalcode = $input_postalcode;
+   }
     
     // Check input errors before inserting in database
-    if(empty($firstname_err) && empty($lastname_err) && empty($couponcode_err) && empty($email_err) && empty($city_err) && empty($state_err)){
+    if(empty($firstname_err) && empty($lastname_err) && empty($couponcode_err) && empty($email_err) && empty($city_err) && empty($state_err) && empty($address1_err) && empty($address2_err) && empty($postalcode_err)){
         // Prepare an update statement
-        $sql = "UPDATE Mavens SET FirstName=?, LastName=?, CouponCode=?, Email=?, City=?, State=? WHERE ID=?";
+        $sql = "UPDATE Mavens SET FirstName=?, LastName=?, CouponCode=?, Email=?, City=?, State=?, Address1=?, Address2=?, PostalCode=? WHERE ID=?";
          
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "ssssssi", $param_firstname, $param_lastname, $param_couponcode, $param_email, $param_city, $param_state, $param_id);
+            mysqli_stmt_bind_param($stmt, "sssssssssi", $param_firstname, $param_lastname, $param_couponcode, $param_email, $param_city, $param_state, $param_address1, $param_address2, $param_postalcode, $param_id);
             
             // Set parameters
             $param_firstname = $firstname;
@@ -75,6 +99,9 @@ if(isset($_POST["ID"]) && !empty($_POST["ID"])){
             $param_email = $email;
             $param_city = $city;
             $param_state = $state;
+            $param_address1 = $address1;
+            $param_address2 = $address2;
+            $param_postalcode = $postalcode;
             $param_id=$id;
             
             // Attempt to execute the prepared statement
@@ -127,6 +154,9 @@ else{
                     $email = $row["Email"];
                     $city = $row["City"];
                     $state = $row["State"];
+                    $address1 = $row["Address1"];
+                    $address2 = $row["Address2"];
+                    $postalcode = $row["PostalCode"];
 
                 } else{
                     // URL doesn't contain valid id. Redirect to error page
@@ -199,6 +229,19 @@ else{
                         </div>
 
                         <div class="form-group">
+                            <label>Address 1</label>
+                            <input type="text" name="Address1" class="form-control <?php echo (!empty($address1_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $address1; ?>">
+                            <span class="invalid-feedback"><?php echo $address1_err;?></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Address 2</label>
+                            <input type="text" name="Address2" class="form-control <?php echo (!empty($address2_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $address2; ?>">
+                            <span class="invalid-feedback"><?php echo $address2_err;?></span>
+                        </div>
+
+
+                        <div class="form-group">
                             <label>City</label>
                             <input type="text" name="City" class="form-control <?php echo (!empty($city_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $city; ?>">
                             <span class="invalid-feedback"><?php echo $city_err;?></span>
@@ -209,6 +252,13 @@ else{
                             <input type="text" name="State" class="form-control <?php echo (!empty($state_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $state; ?>">
                             <span class="invalid-feedback"><?php echo $state_err;?></span>
                         </div>
+
+                        <div class="form-group">
+                            <label>Zip or Postal Code</label>
+                            <input type="text" name="PostalCode" class="form-control <?php echo (!empty($postalcode_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $postalcode; ?>">
+                            <span class="invalid-feedback"><?php echo $postalcode_err;?></span>
+                        </div>
+
 
                         <input type="hidden" name="ID" value="<?php echo $id; ?>"/>
                         <input type="submit" class="btn btn-primary" value="Submit">
