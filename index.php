@@ -3,15 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Maven Dashboard</title>
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <link rel="icon" href="https://i0.wp.com/www.mynaturesrite.com/wp-content/uploads/2017/11/cropped-favi-32x32.png?fit=32%2C32&#038;ssl=1" sizes="32x32" />
      
-     <link rel="icon" href="https://i0.wp.com/www.mynaturesrite.com/wp-content/uploads/2017/11/cropped-favi-32x32.png?fit=32%2C32&#038;ssl=1" sizes="192x192" />
+    <link rel="icon" href="https://i0.wp.com/www.mynaturesrite.com/wp-content/uploads/2017/11/cropped-favi-32x32.png?fit=32%2C32&#038;ssl=1" sizes="192x192" />
 
     <style>
         .wrapper{
@@ -28,6 +30,7 @@
         });
     </script>
 </head>
+
 <body>
     <div class="wrapper">
         <div class="container-fluid">
@@ -39,6 +42,7 @@
                         <a href="create-order.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add New Maven Coupon Usage</a>
                     </div>
                     <?php
+
                     // Include config file
                     require_once "config.php";
                     
@@ -64,6 +68,11 @@
 
 
                     if($result = mysqli_query($link, $sql)){
+
+                        $mavencount = mysqli_num_rows($result);
+
+                        echo "<strong>Current Maven Count: </strong>" . $mavencount;
+
                         if(mysqli_num_rows($result) > 0){
                             echo '<table class="table table-bordered table-striped">';
                                 echo "<thead>";
@@ -81,6 +90,7 @@
                                     echo "</tr>";
                                 echo "</thead>";
                                 echo "<tbody>";
+
                                 while($row = mysqli_fetch_array($result)){
 
                                     $ordercount = $row['OrderCount'];
@@ -123,6 +133,7 @@
                         } else{
                             echo '<div class="alert alert-danger"><em>No records were found.</em></div>';
                         }
+
                     } else{
                         echo "Oops! Something went wrong. Please try again later.";
                     }
@@ -131,7 +142,7 @@
                     mysqli_close($link);
                     ?>
 
-<a href="create.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add New Maven</a>
+                    <a href="create.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add New Maven</a>
                 </div>
             </div>        
         </div>

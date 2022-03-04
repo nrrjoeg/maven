@@ -4,13 +4,11 @@ require_once 'config.php';
 
 //maven-fetch.php - database query for maven
 
-$connect = mysqli_connect("127.0.0.1:3336", "joeg", "936xRJyEA7iLSx", "Mavens");
-
 $output = '';
 
 if(isset($_POST["query"]))
 {
- $search = mysqli_real_escape_string($connect, $_POST["query"]);
+ $search = mysqli_real_escape_string($link, $_POST["query"]);
  
  $query = "
    SELECT * FROM `Mavens`
@@ -26,43 +24,34 @@ if(isset($_POST["query"]))
 else
 
 {
- $query = "
-  SELECT * FROM `Mavens` 
-  ORDER BY `ID` ASC
- ";
+ $query = "SELECT * FROM `Mavens`
+  ORDER BY `CouponCode` ASC";
 }
 
-$result = mysqli_query($connect, $query);
+$result = mysqli_query($link, $query);
 
 if(mysqli_num_rows($result) > 0)
 {
  $output .= '
   <div class="table-responsive">
    <table class="table table bordered">
-    <tr>
-    <th>FirstName</th>
-     <th>LastName</th>
-     <th>CouponCode</th>
-     <th>Email</th>
-     <th>City</th>
-     <th>State</th>
-    </tr>
- ';
+      <tr>
+      <th>CouponCode</th>
+      <th>FirstName</th>
+      <th>LastName</th>
+      <th>Email</th>
+      <th>City</th>
+      <th>State</th>
+    </tr>';
  
  while($row = mysqli_fetch_array($result))
  {
   $output .= 
   
-     '<tr><td><a href="'
-    
-        .$viewsdir.'/customer-details-view.php?CustomerNumber='
+     '<tr><td>'
      
-        .$row["PARTY_ID"].
+        .$row["CouponCode"].
 
-        '&accountnumbersearch=">'
-
-        .$row["PARTY_ID"].
-       
      '</a></td>
      
      <td>'
@@ -75,22 +64,21 @@ if(mysqli_num_rows($result) > 0)
          
      '</td><td>'
           
-         .$row["CouponCode"].
+         .$row["Email"].
+
      '</td><td>'
              
-         .$row["Email"].
+         .$row["City"].
          
      '</td><td>'
      
-         .$row["City"].
+         .$row["State"].
          
-      '</td><td>'
-      
-        .$row["State"].
-        
-       '</td></tr>';
+      '</td></tr>';
  }
- echo $output;
+
+   echo $output;
+
 }
 else
 {

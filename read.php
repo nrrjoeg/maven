@@ -80,7 +80,10 @@ if(isset($_GET["ID"]) && !empty(trim($_GET["ID"]))){
                     <div class="form-group">
                         <label>First Name</label>
                         <p><b><?php echo $row["FirstName"]; ?></b></p>
-                    </div>state
+                    </div>
+
+                    <div class="form-group">
+                        <label>Last Name</label>
                         <p><b><?php echo $row["LastName"]; ?></b></p>
                     </div>
                     
