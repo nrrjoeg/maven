@@ -9,7 +9,7 @@ require_once 'config.php';
       $linecount = 0;
 
       $query = "SELECT `CouponCode`,
-      count(*) as `CouponUses`
+        count(*) as `CouponUses`
 
       FROM `Maven`.`Orders`
 
