@@ -1,6 +1,6 @@
 
 
-    <?php echo "Number of Maven Orders:"  . $linecount; ?>
+    <?php echo "<strong>Number of Maven Orders:</strong> "  . $linecount; ?>
 
      <table class="table table-bordered table-striped">
          <thead>

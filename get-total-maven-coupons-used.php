@@ -8,19 +8,19 @@ require_once 'config.php';
 
       $linecount = 0;
 
-      $query = "SELECT `CouponCode`,
-        count(*) as `CouponUses`
+      $query = "SELECT sum(`CouponUses`) as `TotalCouponUses`
 
-      FROM `Maven`.`Orders`
-
-      Group by `CouponCode`";
+      FROM `Maven`.`MavenCouponUsageCounts`";
 
 
       $search_result = mysqli_query($link, $query);
       $linecount = mysqli_num_rows($search_result);
 
-// Set variable to the number of mavens whose coupons have been used
-      
-      $activemavens = $linecount;      
+      // Set variable to the number of mavens whose coupons have been used
+
+      while($row = mysqli_fetch_array($search_result)){
+
+        $totalmavencouponsused = $row['TotalCouponUses'];
+      }
 
 ?>

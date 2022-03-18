@@ -46,6 +46,9 @@
                     //Establish number of active mavens
                     require_once "get-maven-coupon-usage.php";
 
+                    //Establish total number of coupons used
+                    require_once "get-total-maven-coupons-used.php";
+
                     // Include config file
                     require_once "config.php";
                     
@@ -77,7 +80,7 @@
                         echo "<strong>Current Maven count: </strong>" . $mavencount . "<br>";
                         echo "<strong>Individual Mavens whose coupons have been used: </strong>" . $activemavens . "<br>";
 
-                        echo "<strong>Total Maven Coupons Used: </strong><br>";
+                        echo "<strong>Total Maven Coupons Used: </strong>" . $totalmavencouponsused . "<br>";
 
                         if(mysqli_num_rows($result) > 0){
                             echo '<table class="table table-bordered table-striped">';
@@ -136,6 +139,7 @@
 
                             // Free result set
                             mysqli_free_result($result);
+
                         } else{
                             echo '<div class="alert alert-danger"><em>No records were found.</em></div>';
                         }
