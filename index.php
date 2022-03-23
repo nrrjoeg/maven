@@ -24,11 +24,13 @@
             width: 50px;
         }
     </style>
+
     <script>
         $(document).ready(function(){
             $('[data-toggle="tooltip"]').tooltip();   
         });
     </script>
+
 </head>
 
 <body>
@@ -38,15 +40,20 @@
                 <div class="col-md-12">
                     <div class="mt-5 mb-3 clearfix">
                         <h2 class="pull-left">Nature's Rite Maven Dashboard</h2>
+
                         <a href="create.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add New Maven</a><br><br>
+                        
                         <a href="create-order.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add New Maven Coupon Usage</a>
                     </div>
+                    
                     <?php
 
-                    //Establish number of active mavens
+                    //Establish number of customers who coupons have been used
+                    // Sets the $activemavens variable
                     require_once "get-maven-coupon-usage.php";
 
                     //Establish total number of coupons used
+                    // Sets the $totalmavencouponsused variable
                     require_once "get-total-maven-coupons-used.php";
 
                     // Include config file

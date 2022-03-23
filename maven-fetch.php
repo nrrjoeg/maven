@@ -7,11 +7,11 @@ require_once 'config.php';
 $output = '';
 
 if(isset($_POST["query"]))
+
 {
  $search = mysqli_real_escape_string($link, $_POST["query"]);
  
- $query = "
-   SELECT * FROM `Mavens`
+ $query = "SELECT * FROM `Mavens`
    WHERE Lower(`FirstName`) like '%".$search."%'
    or lower(`LastName`) like '%".$search."%'
    or lower(`CouponCode`) like '%".$search."%'
@@ -31,17 +31,19 @@ else
 $result = mysqli_query($link, $query);
 
 if(mysqli_num_rows($result) > 0)
+
 {
  $output .= '
   <div class="table-responsive">
    <table class="table table bordered">
-      <tr>
+   <tr>
       <th>CouponCode</th>
       <th>FirstName</th>
       <th>LastName</th>
       <th>Email</th>
       <th>City</th>
       <th>State</th>
+      <th>Maven ID</th>
     </tr>';
  
  while($row = mysqli_fetch_array($result))
@@ -74,7 +76,12 @@ if(mysqli_num_rows($result) > 0)
      
          .$row["State"].
          
+      '</td><td>'
+
+         .$row["ID"].
+      
       '</td></tr>';
+
  }
 
    echo $output;
